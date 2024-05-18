@@ -15,6 +15,7 @@ class QueueGetter:
         self.url = url+"/"+queue
         self.username = username
         self.password = password
+        self.queue = queue
 
     def get_data(self):
         response = requests.get(self.url, auth=HTTPBasicAuth(self.username, self.password))
@@ -260,6 +261,19 @@ class QueueGetter:
         except:
             print("Exception occured")
             return Exception("Exception Occured")
+        
+    def purgeQueue(self,container_name):
+        command = f"docker exec {container_name} rabbitmqctl purge_queue {self.queue}"
+        import os
+        try:
+            output = os.system(command)
+            print(output)
+            return "success"
+        except:
+            print("Exception occured")
+            return Exception("Exception Occured")
+
+
     
 
     
